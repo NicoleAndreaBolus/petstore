@@ -93,26 +93,27 @@ export default function Login() {
     setError("");
     setLoading(true);
     try {
-      // Fixed: Using the environment variable instead of localhost
       const res = await axios.post(
         `${import.meta.env.VITE_API_BASE_URL}/api/auth/login`,
-        {
-          email,
-          password,
-        },
+        { email, password },
       );
 
       // 1. Log the user into your AuthContext
       login(res.data);
 
-      // ... rest of your navigation logic (e.g., navigate('/admin'))
+      // 2. REDIRECT LOGIC: This tells the browser where to go!
+      if (res.data.role === "ADMIN" || res.data.role === "ROLE_ADMIN") {
+        navigate("/admin");
+      } else {
+        navigate("/");
+      }
     } catch (err) {
       setError("Invalid email or password.");
       console.error("Login error:", err);
     } finally {
       setLoading(false);
     }
-  };
+  }
 
   const handleKeyDown = (e: React.KeyboardEvent) => {
     if (e.key === "Enter") handleLogin();
@@ -120,7 +121,7 @@ export default function Login() {
 
   return (
     <Box sx={{ minHeight: "100vh", display: "flex", bgcolor: "#ffffff" }}>
-      {/* ── Left: Carousel ── */}
+      {/* Carousel Section */}
       <Box
         sx={{
           display: { xs: "none", md: "flex" },
@@ -150,7 +151,6 @@ export default function Login() {
             />
           </Box>
         ))}
-
         <Box
           sx={{
             position: "absolute",
@@ -194,7 +194,7 @@ export default function Login() {
               letterSpacing: 0.5,
             }}
           >
-            PET
+            PET{" "}
             <Box
               component="span"
               sx={{ color: "primary.light", fontWeight: 600 }}
@@ -250,7 +250,7 @@ export default function Login() {
           ))}
         </Box>
 
-        {/* Dots */}
+        {/* Controls */}
         <Box
           sx={{
             position: "absolute",
@@ -280,8 +280,6 @@ export default function Login() {
             />
           ))}
         </Box>
-
-        {/* Home button */}
         <IconButton
           onClick={() => navigate("/")}
           sx={{
@@ -303,7 +301,7 @@ export default function Login() {
         </IconButton>
       </Box>
 
-      {/* ── Right: Form ── */}
+      {/* Form Section */}
       <Box
         sx={{
           flex: 1,
@@ -317,89 +315,9 @@ export default function Login() {
           py: 6,
         }}
       >
-        {/* Paw prints background */}
-        <Box
-          sx={{
-            position: "absolute",
-            inset: 0,
-            pointerEvents: "none",
-            display: { xs: "none", sm: "block" },
-            color: "#1976D2",
-            zIndex: 0,
-            "@keyframes pawFade": {
-              "0%": { opacity: 0 },
-              "15%": { opacity: 0.12 },
-              "50%": { opacity: 0.12 },
-              "100%": { opacity: 0 },
-            },
-          }}
-        >
-          {[
-            { bottom: "10%", left: "15%", rotate: 35, delay: "0s" },
-            { bottom: "25%", left: "28%", rotate: 45, delay: "0.6s" },
-            { bottom: "45%", left: "20%", rotate: 25, delay: "1.2s" },
-            { bottom: "60%", left: "40%", rotate: 50, delay: "1.8s" },
-            { bottom: "75%", left: "65%", rotate: 65, delay: "2.4s" },
-            { bottom: "85%", left: "85%", rotate: 45, delay: "3.0s" },
-          ].map((p, i) => (
-            <Pets
-              key={i}
-              sx={{
-                fontSize: 56,
-                position: "absolute",
-                bottom: p.bottom,
-                left: p.left,
-                transform: `rotate(${p.rotate}deg)`,
-                opacity: 0,
-                animation: `pawFade 6s infinite ${p.delay}`,
-              }}
-            />
-          ))}
-        </Box>
-
         <Box
           sx={{ width: "100%", maxWidth: 400, position: "relative", zIndex: 1 }}
         >
-          {/* Mobile logo */}
-          <Box
-            onClick={() => navigate("/")}
-            sx={{
-              display: { xs: "flex", md: "none" },
-              alignItems: "center",
-              gap: 1.5,
-              mb: 4,
-              cursor: "pointer",
-            }}
-          >
-            <Box
-              sx={{
-                p: 1,
-                bgcolor: "primary.main",
-                borderRadius: "12px",
-                display: "flex",
-              }}
-            >
-              <Pets sx={{ color: "#fff", fontSize: 24 }} />
-            </Box>
-            <Typography
-              sx={{
-                fontWeight: 800,
-                fontSize: "1.25rem",
-                letterSpacing: 0.5,
-                color: "text.primary",
-              }}
-            >
-              PET
-              <Box
-                component="span"
-                sx={{ color: "primary.main", fontWeight: 600 }}
-              >
-                STORE
-              </Box>
-            </Typography>
-          </Box>
-
-          {/* Header */}
           <Box sx={{ mb: 4 }}>
             <Typography
               variant="h4"
@@ -415,7 +333,6 @@ export default function Login() {
             </Typography>
           </Box>
 
-          {/* Error */}
           {error && (
             <Alert
               severity="error"
@@ -426,7 +343,6 @@ export default function Login() {
           )}
 
           <Stack spacing={2.5}>
-            {/* Email */}
             <Box>
               <Typography
                 variant="subtitle2"
@@ -442,18 +358,19 @@ export default function Login() {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 onKeyDown={handleKeyDown}
-                InputProps={{
-                  startAdornment: (
-                    <InputAdornment position="start">
-                      <EmailOutlined sx={{ color: "text.disabled" }} />
-                    </InputAdornment>
-                  ),
+                slotProps={{
+                  input: {
+                    startAdornment: (
+                      <InputAdornment position="start">
+                        <EmailOutlined sx={{ color: "text.disabled" }} />
+                      </InputAdornment>
+                    ),
+                  },
                 }}
                 sx={premiumInputStyle}
               />
             </Box>
 
-            {/* Password */}
             <Box>
               <Box
                 sx={{
@@ -489,29 +406,30 @@ export default function Login() {
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 onKeyDown={handleKeyDown}
-                InputProps={{
-                  startAdornment: (
-                    <InputAdornment position="start">
-                      <LockOutlined sx={{ color: "text.disabled" }} />
-                    </InputAdornment>
-                  ),
-                  endAdornment: (
-                    <InputAdornment position="end">
-                      <IconButton
-                        onClick={() => setShowPassword(!showPassword)}
-                        edge="end"
-                        sx={{ color: "text.disabled" }}
-                      >
-                        {showPassword ? <VisibilityOff /> : <Visibility />}
-                      </IconButton>
-                    </InputAdornment>
-                  ),
+                slotProps={{
+                  input: {
+                    startAdornment: (
+                      <InputAdornment position="start">
+                        <LockOutlined sx={{ color: "text.disabled" }} />
+                      </InputAdornment>
+                    ),
+                    endAdornment: (
+                      <InputAdornment position="end">
+                        <IconButton
+                          onClick={() => setShowPassword(!showPassword)}
+                          edge="end"
+                          sx={{ color: "text.disabled" }}
+                        >
+                          {showPassword ? <VisibilityOff /> : <Visibility />}
+                        </IconButton>
+                      </InputAdornment>
+                    ),
+                  },
                 }}
                 sx={premiumInputStyle}
               />
             </Box>
 
-            {/* Sign In button */}
             <Button
               variant="contained"
               fullWidth
@@ -533,11 +451,6 @@ export default function Login() {
                     "linear-gradient(135deg, #1565C0 0%, #0D47A1 100%)",
                   transform: "translateY(-2px)",
                   boxShadow: "0 12px 28px rgba(25, 118, 210, 0.3)",
-                },
-                "&:disabled": {
-                  background: "#93C5FD",
-                  boxShadow: "none",
-                  transform: "none",
                 },
               }}
             >
@@ -561,7 +474,6 @@ export default function Login() {
               fullWidth
               size="large"
               onClick={() => {
-                // This magically fills the inputs!
                 setEmail("admin@petstore.com");
                 setPassword("admin123");
               }}
@@ -577,32 +489,6 @@ export default function Login() {
               }}
             >
               🎓 Auto-Fill Professor Login
-            </Button>
-
-            {/* Google button */}
-            <Button
-              variant="contained"
-              fullWidth
-              size="large"
-              startIcon={<Google sx={{ color: "#DB4437" }} />}
-              sx={{
-                borderRadius: "12px",
-                py: 1.5,
-                fontWeight: 600,
-                fontSize: "1rem",
-                textTransform: "none",
-                bgcolor: "#F3F4F6",
-                color: "text.primary",
-                boxShadow: "none",
-                border: "1px solid transparent",
-                "&:hover": {
-                  bgcolor: "#E5E7EB",
-                  boxShadow: "none",
-                  borderColor: "#D1D5DB",
-                },
-              }}
-            >
-              Sign in with Google
             </Button>
           </Stack>
 
