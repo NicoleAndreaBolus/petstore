@@ -1,0 +1,5 @@
+# Gradle Build Tools
+backend/gradle.zip
+backend/gradle-8.12.1/
+backend/.gradle/
+backend/build/
