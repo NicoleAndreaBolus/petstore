@@ -102,9 +102,16 @@ export default function Login() {
       login(res.data);
 
       // 2. REDIRECT LOGIC: This tells the browser where to go!
-      if (res.data.role === "ADMIN" || res.data.role === "ROLE_ADMIN") {
+      console.log("Full Backend Response:", res.data);
+      // This checks if 'admin' appears anywhere in the role string, case-insensitive
+      const userRole =
+        res.data.role || (res.data.user && res.data.user.role) || "";
+
+      if (userRole.toString().toUpperCase().includes("ADMIN")) {
+        console.log("Redirecting to Admin...");
         navigate("/admin");
       } else {
+        console.log("Redirecting to Home...");
         navigate("/");
       }
     } catch (err) {
