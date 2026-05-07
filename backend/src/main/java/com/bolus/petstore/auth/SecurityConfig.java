@@ -1,6 +1,7 @@
 package com.bolus.petstore.auth;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -19,7 +20,10 @@ import java.util.List;
 @Configuration
 public class SecurityConfig {
 
-    // Inject your JWT Filter
+    // Automatically pulls the URL from your Render Environment Variables
+    @Value("${FRONTEND_URL:http://localhost:5173}")
+    private String frontendUrl;
+
     @Autowired
     private JwtFilter jwtFilter; 
 
@@ -36,12 +40,11 @@ public class SecurityConfig {
                 .requestMatchers(HttpMethod.GET, "/api/pets").permitAll()
                 .requestMatchers(HttpMethod.GET, "/api/pets/**").permitAll()
                 
-                // --- FIX: ALLOW GUEST ACCESS TO THE CART API ---
+                // --- ALLOW GUEST ACCESS TO THE CART API ---
                 .requestMatchers("/api/cart/**").permitAll()
                 
                 .anyRequest().authenticated()
             )
-            // Add the JWT filter to the chain before the standard filter
             .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
             
         return http.build();
@@ -55,10 +58,14 @@ public class SecurityConfig {
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration config = new CorsConfiguration();
-        config.setAllowedOrigins(List.of("http://localhost:5173"));
+        
+        // This list now allows BOTH your local machine and your Render site
+        config.setAllowedOrigins(List.of(frontendUrl, "http://localhost:5173"));
+        
         config.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
         config.setAllowedHeaders(List.of("*"));
         config.setAllowCredentials(true);
+        
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", config);
         return source;
