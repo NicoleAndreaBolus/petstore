@@ -1,4 +1,10 @@
-import { createContext, useContext, useState, useEffect, type ReactNode } from 'react';
+import {
+  createContext,
+  useContext,
+  useState,
+  useEffect,
+  type ReactNode,
+} from "react";
 
 export interface Pet {
   id: number;
@@ -9,11 +15,11 @@ export interface Pet {
 }
 
 export interface CartItem {
-  id: number; 
-  productId: number; 
+  id: number;
+  productId: number;
   quantity: number;
   // Added optional fields for the UI to display
-  name?: string; 
+  name?: string;
   imageUrl?: string;
   species?: string;
 }
@@ -30,10 +36,10 @@ interface CartContextType {
 const CartContext = createContext<CartContextType | undefined>(undefined);
 
 const getSessionId = () => {
-  let sessionId = localStorage.getItem('cart_session_id');
+  let sessionId = localStorage.getItem("cart_session_id");
   if (!sessionId) {
-    sessionId = crypto.randomUUID(); 
-    localStorage.setItem('cart_session_id', sessionId);
+    sessionId = crypto.randomUUID();
+    localStorage.setItem("cart_session_id", sessionId);
   }
   return sessionId;
 };
@@ -48,30 +54,37 @@ export function CartProvider({ children }: { children: ReactNode }) {
 
   const fetchCart = async () => {
     try {
-      const response = await fetch(`http://localhost:8080/api/cart?sessionId=${sessionId}`);
+      // 1. Fixed the Cart URL
+      const response = await fetch(
+        `${import.meta.env.VITE_API_BASE_URL}/api/cart?sessionId=${sessionId}`,
+      );
+
       if (response.ok) {
         const cart = await response.json();
+
         if (cart.items && cart.items.length > 0) {
-           // FETCH PET DETAILS TO GET PHOTOS AND NAMES!
-           const petsRes = await fetch("http://localhost:8080/api/pets");
-           if (petsRes.ok) {
-               const allPets = await petsRes.json();
-               // Merge the cart items with the pet details
-               const enrichedItems = cart.items.map((item: any) => {
-                   const pet = allPets.find((p: any) => p.id === item.productId);
-                   return {
-                       ...item,
-                       name: pet?.name || "Unknown Pet",
-                       imageUrl: pet?.imageUrl || "",
-                       species: pet?.species || "Unknown"
-                   };
-               });
-               setCartItems(enrichedItems);
-           } else {
-               setCartItems(cart.items);
-           }
+          // 2. Fixed the Pets URL
+          const petsRes = await fetch(
+            `${import.meta.env.VITE_API_BASE_URL}/api/pets`,
+          );
+          if (petsRes.ok) {
+            const allPets = await petsRes.json();
+            // Merge the cart items with the pet details
+            const enrichedItems = cart.items.map((item: any) => {
+              const pet = allPets.find((p: any) => p.id === item.productId);
+              return {
+                ...item,
+                name: pet?.name || "Unknown Pet",
+                imageUrl: pet?.imageUrl || "",
+                species: pet?.species || "Unknown",
+              };
+            });
+            setCartItems(enrichedItems);
+          } else {
+            setCartItems(cart.items);
+          }
         } else {
-           setCartItems([]);
+          setCartItems([]);
         }
       }
     } catch (error) {
@@ -81,11 +94,14 @@ export function CartProvider({ children }: { children: ReactNode }) {
 
   const addToCart = async (pet: Pet) => {
     try {
-      const response = await fetch(`http://localhost:8080/api/cart/items?sessionId=${sessionId}`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ productId: pet.id, quantity: 1 }),
-      });
+      const response = await fetch(
+        `${import.meta.env.VITE_API_BASE_URL}/api/cart/items?sessionId=${sessionId}`,
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ productId: pet.id, quantity: 1 }),
+        },
+      );
       if (response.ok) fetchCart();
     } catch (error) {
       console.error("Failed to add to cart:", error);
@@ -93,35 +109,53 @@ export function CartProvider({ children }: { children: ReactNode }) {
   };
 
   const updateQuantity = async (itemId: number, quantity: number) => {
-      try {
-          const response = await fetch(`http://localhost:8080/api/cart/items/${itemId}?sessionId=${sessionId}`, {
-              method: 'PATCH',
-              headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify({ quantity })
-          });
-          if (response.ok) fetchCart();
-      } catch (error) {
-          console.error("Failed to update quantity:", error);
-      }
-  }
+    try {
+      const response = await fetch(
+        `${import.meta.env.VITE_API_BASE_URL}/api/cart/items/${itemId}?sessionId=${sessionId}`,
+        {
+          method: "PATCH",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ quantity }),
+        },
+      );
+      if (response.ok) fetchCart();
+    } catch (error) {
+      console.error("Failed to update quantity:", error);
+    }
+  };
 
   const removeFromCart = async (itemId: number) => {
     try {
-        const response = await fetch(`http://localhost:8080/api/cart/items/${itemId}?sessionId=${sessionId}`, {
-            method: 'DELETE'
-        });
-        if (response.ok) fetchCart();
+      const response = await fetch(
+        `${import.meta.env.VITE_API_BASE_URL}/api/cart/items/${itemId}?sessionId=${sessionId}`,
+        {
+          method: "DELETE",
+        },
+      );
+      if (response.ok) fetchCart();
     } catch (error) {
-        console.error("Failed to remove item:", error);
+      console.error("Failed to remove item:", error);
     }
   };
 
   const clearCart = () => setCartItems([]);
 
-  const cartTotal = cartItems.reduce((total, item) => total + (100 * item.quantity), 0);
+  const cartTotal = cartItems.reduce(
+    (total, item) => total + 100 * item.quantity,
+    0,
+  );
 
   return (
-    <CartContext.Provider value={{ cartItems, addToCart, removeFromCart, updateQuantity, clearCart, cartTotal }}>
+    <CartContext.Provider
+      value={{
+        cartItems,
+        addToCart,
+        removeFromCart,
+        updateQuantity,
+        clearCart,
+        cartTotal,
+      }}
+    >
       {children}
     </CartContext.Provider>
   );
@@ -129,6 +163,7 @@ export function CartProvider({ children }: { children: ReactNode }) {
 
 export const useCart = () => {
   const context = useContext(CartContext);
-  if (context === undefined) throw new Error("useCart must be used within a CartProvider");
+  if (context === undefined)
+    throw new Error("useCart must be used within a CartProvider");
   return context;
 };

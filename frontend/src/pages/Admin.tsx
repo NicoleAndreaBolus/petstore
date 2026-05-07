@@ -18,7 +18,7 @@ import { useNavigate } from "react-router-dom";
 // 1. IMPORT USE AUTH
 import { useAuth } from "../context/AuthContext";
 
-const API_URL = "http://localhost:8080/api/pets";
+const API_URL = `${import.meta.env.VITE_API_BASE_URL}/api/pets`;
 
 const SPECIES_COLORS: Record<string, { bg: string; color: string }> = {
   Dog:    { bg: "#EEF2FF", color: "#4F46E5" },

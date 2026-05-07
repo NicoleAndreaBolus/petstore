@@ -85,7 +85,7 @@ export default function Login() {
     return () => clearInterval(timer);
   }, []);
 
-  const handleLogin = async () => {
+  async function handleLogin() {
     if (!email || !password) {
       setError("Please enter your email and password.");
       return;
@@ -93,21 +93,22 @@ export default function Login() {
     setError("");
     setLoading(true);
     try {
-      const res = await axios.post("http://localhost:8080/api/auth/login", {
-        email,
-        password,
-      });
+      // Fixed: Using the environment variable instead of localhost
+      const res = await axios.post(
+        `${import.meta.env.VITE_API_BASE_URL}/api/auth/login`,
+        {
+          email,
+          password,
+        },
+      );
+
       // 1. Log the user into your AuthContext
       login(res.data);
-      
-      // 2. THE TRAFFIC COP: Route based on Admin status
-      if (email === "admin@petstore.com" || res.data.role === "ADMIN") {
-        navigate("/admin");
-      } else {
-        navigate("/");
-      }
-    } catch {
-      setError("Invalid email or password. Please try again.");
+
+      // ... rest of your navigation logic (e.g., navigate('/admin'))
+    } catch (err) {
+      setError("Invalid email or password.");
+      console.error("Login error:", err);
     } finally {
       setLoading(false);
     }

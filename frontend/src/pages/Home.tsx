@@ -52,8 +52,9 @@ export default function Home() {
   const navigate = useNavigate();
 
   useEffect(function () {
+    // Use backticks and the variable here
     axios
-      .get("http://localhost:8080/api/pets")
+      .get(`${import.meta.env.VITE_API_BASE_URL}/api/pets`)
       .then(function (res) {
         setPets(res.data);
       })

@@ -32,7 +32,7 @@ import { useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import { useCart } from "../context/CartContext";
 
-const API_URL = "http://localhost:8080/api/pets";
+const API_URL = `${import.meta.env.VITE_API_BASE_URL}/api/pets`;
 
 const FILTERS = [
   { label: "All", emoji: "🐾" },
@@ -47,11 +47,6 @@ export default function Gallery() {
   const [activeFilter, setActiveFilter] = useState("All");
   const [selectedPet, setSelectedPet] = useState<any>(null);
 
-  const [passportStep, setPassportStep] = useState<
-    "details" | "schedule" | "success"
-  >("details");
-  const [scheduleDate, setScheduleDate] = useState("");
-  const [scheduleTime, setScheduleTime] = useState("");
 
   const [search, setSearch] = useState("");
   const [favorites, setFavorites] = useState<Set<number>>(new Set());
