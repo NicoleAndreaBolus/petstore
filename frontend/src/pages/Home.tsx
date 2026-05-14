@@ -20,7 +20,6 @@ import {
   Badge,
   Dialog,
   DialogContent,
-  Fade,
   Chip,
   Avatar,
   AvatarGroup,
@@ -319,14 +318,13 @@ export default function Home() {
         />
 
         <Container maxWidth="lg" sx={{ position: "relative", zIndex: 1 }}>
-          <Grid
-            container
-            spacing={{ xs: 4, md: 4, lg: 8 }}
-            alignItems="center"
-            justifyContent="space-between"
-          >
+            <Grid
+              container
+              spacing={{ xs: 4, md: 4, lg: 8 }}
+              sx={{ alignItems: "center", justifyContent: "space-between" }}
+            >
             {/* Left Content - Flush Left */}
-            <Grid item xs={12} md={6}>
+            <Grid size={{ xs: 12, md: 6 }}>
               <Box
                 sx={{ maxWidth: 540, textAlign: { xs: "center", md: "left" } }}
               >
@@ -444,9 +442,7 @@ export default function Home() {
 
             {/* Right Hero Image - Flush Right */}
             <Grid
-              item
-              xs={12}
-              md={6}
+              size={{ xs: 12, md: 6 }}
               sx={{
                 display: { xs: "none", md: "flex" },
                 justifyContent: "flex-end",
@@ -545,8 +541,7 @@ export default function Home() {
         <Grid
           container
           spacing={3}
-          alignItems="stretch"
-          justifyContent="center"
+          sx={{ alignItems: "stretch", justifyContent: "center" }}
         >
           {[
             {
@@ -570,7 +565,7 @@ export default function Home() {
             },
           ].map(function (item, index) {
             return (
-              <Grid key={index} item xs={12} sm={4}>
+              <Grid key={index} size={{ xs: 12, sm: 4 }}>
                 <Card
                   sx={{
                     height: "100%",
@@ -665,13 +660,13 @@ export default function Home() {
               placeholder="Search breeds or names..."
               variant="outlined"
               onChange={handleFilterChange}
-              InputProps={{
+              slotProps={{ input: {
                 startAdornment: (
                   <InputAdornment position="start">
                     <SearchRounded sx={{ color: "text.secondary" }} />
                   </InputAdornment>
                 ),
-              }}
+              } }}
               sx={{
                 width: { xs: "100%", md: "400px" },
                 "& .MuiOutlinedInput-root": {
@@ -894,18 +889,16 @@ export default function Home() {
       <Dialog
         open={Boolean(selectedPet)}
         onClose={handleClosePassport}
-        TransitionComponent={Fade}
+        
         maxWidth="md"
         fullWidth
-        PaperProps={{
-          sx: {
+        sx={{ "& .MuiDialog-paper": {
             borderRadius: "24px",
             overflow: "hidden",
             m: 2,
             bgcolor: "#F8FAFC",
             border: "1px solid #E2E8F0",
-          },
-        }}
+          } }}
       >
         {selectedPet && (
           <DialogContent sx={{ p: 0 }}>
@@ -1227,8 +1220,8 @@ export default function Home() {
         }}
       >
         <Container maxWidth="lg">
-          <Grid container spacing={6} justifyContent="space-between">
-            <Grid item xs={12} md={4}>
+          <Grid container spacing={6} sx={{ justifyContent: "space-between" }}>
+            <Grid size={{ xs: 12, md: 4 }}>
               <Box
                 sx={{ display: "flex", alignItems: "center", gap: 1, mb: 3 }}
               >
@@ -1258,7 +1251,7 @@ export default function Home() {
               </Typography>
             </Grid>
 
-            <Grid item xs={6} md={2}>
+            <Grid size={{ xs: 6, md: 2 }}>
               <Typography
                 variant="subtitle2"
                 sx={{
@@ -1297,7 +1290,7 @@ export default function Home() {
               </Stack>
             </Grid>
 
-            <Grid item xs={6} md={2}>
+            <Grid size={{ xs: 6, md: 2 }}>
               <Typography
                 variant="subtitle2"
                 sx={{
@@ -1336,7 +1329,7 @@ export default function Home() {
               </Stack>
             </Grid>
 
-            <Grid item xs={12} md={3}>
+            <Grid size={{ xs: 12, md: 3 }}>
               <Typography
                 variant="subtitle2"
                 sx={{

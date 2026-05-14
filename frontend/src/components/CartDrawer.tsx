@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Box, Typography, IconButton, Drawer, Button, Stack, Divider, Avatar, Dialog, DialogTitle, DialogContent, DialogActions, TextField } from "@mui/material";
+import { Box, Typography, IconButton, Drawer, Button, Stack, Avatar, Dialog, DialogTitle, DialogContent, DialogActions, TextField } from "@mui/material";
 import { CloseRounded, CalendarMonthRounded, PetsRounded, DeleteOutlineRounded } from "@mui/icons-material";
 import { useCart } from "../context/CartContext"; 
 import { useNavigate } from "react-router-dom";
@@ -27,7 +27,7 @@ export default function CartDrawer({ open, onClose }: { open: boolean; onClose: 
 
   return (
     <>
-      <Drawer anchor="right" open={open} onClose={onClose} PaperProps={{ sx: { width: { xs: '100%', sm: 400 }, borderRadius: { sm: '24px 0 0 24px' } } }}>
+      <Drawer anchor="right" open={open} onClose={onClose} sx={{ "& .MuiDrawer-paper": { width: { xs: '100%', sm: 400 }, borderRadius: { sm: '24px 0 0 24px' } } }}>
         
         {/* Drawer Header */}
         <Box sx={{ p: 3, display: 'flex', alignItems: 'center', justifyContent: 'space-between', borderBottom: '1px solid rgba(0,0,0,0.05)' }}>
@@ -73,7 +73,7 @@ export default function CartDrawer({ open, onClose }: { open: boolean; onClose: 
                           <Box sx={{ display: 'flex', gap: 2, alignItems: 'center' }}>
                              <Avatar src={item.imageUrl} variant="rounded" sx={{ width: 56, height: 56, borderRadius: '12px' }} />
                              <Box>
-                                <Typography variant="subtitle1" fontWeight={800}>{item.name}</Typography>
+                                <Typography variant="subtitle1" sx={{ fontWeight: 800 }}>{item.name}</Typography>
                                 <Typography variant="body2" color="text.secondary">Pet ID: #{item.productId} • {item.species}</Typography>
                              </Box>
                           </Box>
@@ -100,7 +100,7 @@ export default function CartDrawer({ open, onClose }: { open: boolean; onClose: 
       </Drawer>
 
       {/* SCHEDULING MODAL */}
-      <Dialog open={isModalOpen} onClose={() => setIsModalOpen(false)} PaperProps={{ sx: { borderRadius: '24px', p: 1 } }}>
+      <Dialog open={isModalOpen} onClose={() => setIsModalOpen(false)} sx={{ "& .MuiDrawer-paper": { borderRadius: '24px', p: 1 } }}>
         <DialogTitle sx={{ fontWeight: 800, fontSize: '1.4rem' }}>
           Select Date & Time
           <Typography variant="body2" color="text.secondary" sx={{ mt: 0.5 }}>
@@ -109,12 +109,12 @@ export default function CartDrawer({ open, onClose }: { open: boolean; onClose: 
         </DialogTitle>
         <DialogContent sx={{ display: 'flex', flexDirection: 'column', gap: 3, pt: '20px !important' }}>
           <TextField 
-            label="Date" type="date" InputLabelProps={{ shrink: true }} fullWidth 
+            label="Date" type="date" slotProps={{ inputLabel: { shrink: true } }} fullWidth 
             value={scheduleDate} onChange={(e) => setScheduleDate(e.target.value)}
             sx={{ '& .MuiOutlinedInput-root': { borderRadius: '12px' } }}
           />
           <TextField 
-            label="Time" type="time" InputLabelProps={{ shrink: true }} fullWidth 
+            label="Time" type="time" slotProps={{ inputLabel: { shrink: true } }} fullWidth 
             value={scheduleTime} onChange={(e) => setScheduleTime(e.target.value)}
             sx={{ '& .MuiOutlinedInput-root': { borderRadius: '12px' } }}
           />

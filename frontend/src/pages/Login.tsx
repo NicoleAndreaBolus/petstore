@@ -18,7 +18,6 @@ import {
   Pets,
   Visibility,
   VisibilityOff,
-  Google,
   EmailOutlined,
   LockOutlined,
   HomeRounded,

@@ -69,7 +69,7 @@ export default function Gallery() {
     // Add a tiny delay so the text doesn't change while the modal is fading out
     setTimeout(() => setAdopted(false), 300);
   }
-  const handleAdopt = () => {
+  /* const handleAdopt = () => {
     if (!user) {
       setSelectedPet(null);
       navigate("/login");
@@ -77,7 +77,7 @@ export default function Gallery() {
     }
     addToCart(selectedPet);
     setAdopted(true);
-  };
+  }; */
 
   const toggleFavorite = (e: React.MouseEvent, id: number) => {
     e.stopPropagation();

@@ -277,13 +277,13 @@ export default function Admin() {
                   {/* FIX 6: Removed standard InputProps directly on the TextField in favor of slotProps if using modern MUI, but slotProps is better. I used standard InputProps correctly to avoid the React warning */}
                   <TextField 
                     placeholder="Search roster..." size="small" value={search} onChange={(e) => setSearch(e.target.value)}
-                    InputProps={{ 
+                    slotProps={{ input: { 
                       startAdornment: (
                         <InputAdornment position="start">
                           <SearchRounded sx={{ color: "#94A3B8", fontSize: 18 }} />
                         </InputAdornment>
                       )
-                    }}
+                    } }}
                     sx={{ width: 240, "& .MuiOutlinedInput-root": { borderRadius: "10px", bgcolor: "#F8FAFC", "& fieldset": { borderColor: "#E2E8F0" }, "&.Mui-focused fieldset": { borderColor: "#3B82F6" } } }}
                   />
                 </Box>
