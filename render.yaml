@@ -41,6 +41,11 @@ services:
         fromDatabase:
           name: petstore-db
           property: password
+      - key: FRONTEND_URL
+        fromService:
+          type: web
+          name: petstore-frontend
+          envVarKey: RENDER_EXTERNAL_URL
 
 databases:
   # PostgreSQL Database
