@@ -344,17 +344,17 @@ export default function Login() {
         >
           {[
             // { bottom, left, delay, rotate, scale, opacity }
-            { bottom: "4%", left: "6%", delay: "0s", rotate: 55, scale: 0.85, opacity: 0.08 },
-            { bottom: "16%", left: "14%", delay: "0.5s", rotate: 35, scale: 1.0, opacity: 0.12 },
-            { bottom: "24%", left: "26%", delay: "1.0s", rotate: 55, scale: 0.80, opacity: 0.07 },
-            { bottom: "36%", left: "34%", delay: "1.5s", rotate: 35, scale: 0.95, opacity: 0.11 },
-            { bottom: "44%", left: "46%", delay: "2.0s", rotate: 55, scale: 0.88, opacity: 0.09 },
-            { bottom: "56%", left: "54%", delay: "2.5s", rotate: 35, scale: 1.05, opacity: 0.13 },
-            { bottom: "64%", left: "66%", delay: "3.0s", rotate: 55, scale: 0.82, opacity: 0.08 },
-            { bottom: "76%", left: "74%", delay: "3.5s", rotate: 35, scale: 0.92, opacity: 0.11 },
-            { bottom: "84%", left: "86%", delay: "4.0s", rotate: 55, scale: 0.86, opacity: 0.09 },
-            { bottom: "96%", left: "94%", delay: "4.5s", rotate: 35, scale: 1.0, opacity: 0.12 },
-            { bottom: "104%", left: "106%", delay: "5.0s", rotate: 55, scale: 0.80, opacity: 0.07 },
+            { bottom: "2%", left: "8%", delay: "0s", rotate: 55, scale: 0.85, opacity: 0.08 },
+            { bottom: "16%", left: "10%", delay: "0.5s", rotate: 35, scale: 1.0, opacity: 0.12 },
+            { bottom: "18%", left: "24%", delay: "1.0s", rotate: 55, scale: 0.80, opacity: 0.07 },
+            { bottom: "32%", left: "26%", delay: "1.5s", rotate: 35, scale: 0.95, opacity: 0.11 },
+            { bottom: "34%", left: "40%", delay: "2.0s", rotate: 55, scale: 0.88, opacity: 0.09 },
+            { bottom: "48%", left: "42%", delay: "2.5s", rotate: 35, scale: 1.05, opacity: 0.13 },
+            { bottom: "50%", left: "56%", delay: "3.0s", rotate: 55, scale: 0.82, opacity: 0.08 },
+            { bottom: "64%", left: "58%", delay: "3.5s", rotate: 35, scale: 0.92, opacity: 0.11 },
+            { bottom: "66%", left: "72%", delay: "4.0s", rotate: 55, scale: 0.86, opacity: 0.09 },
+            { bottom: "80%", left: "74%", delay: "4.5s", rotate: 35, scale: 1.0, opacity: 0.12 },
+            { bottom: "82%", left: "88%", delay: "5.0s", rotate: 55, scale: 0.80, opacity: 0.07 },
           ].map((p, i) => (
             <Box
               key={i}
