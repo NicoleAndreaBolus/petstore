@@ -24,24 +24,6 @@ import {
 } from "@mui/icons-material";
 import { useNavigate } from "react-router-dom";
 
-const RealisticPaw = (props: any) => (
-  <svg viewBox="0 0 100 100" fill="currentColor" {...props}>
-    <defs>
-      <filter id="softEdge" x="-20%" y="-20%" width="140%" height="140%">
-        <feGaussianBlur stdDeviation="1.2" result="blur" />
-        <feComposite in="SourceGraphic" in2="blur" operator="over" />
-      </filter>
-    </defs>
-    <g filter="url(#softEdge)">
-      <path d="M 50 48 C 30 45, 18 55, 25 75 C 30 88, 45 92, 50 88 C 55 92, 70 88, 75 75 C 82 55, 70 45, 50 48 Z" />
-      <path d="M 32 22 C 22 24, 18 35, 25 42 C 32 48, 38 40, 38 30 C 38 24, 38 20, 32 22 Z" />
-      <path d="M 46 10 C 38 10, 36 22, 41 30 C 46 38, 54 38, 56 28 C 58 18, 54 10, 46 10 Z" />
-      <path d="M 64 12 C 56 12, 54 24, 59 32 C 64 40, 72 40, 74 30 C 76 20, 72 12, 64 12 Z" />
-      <path d="M 78 24 C 68 26, 64 37, 71 44 C 78 50, 84 42, 84 32 C 84 26, 84 22, 78 24 Z" />
-    </g>
-  </svg>
-);
-
 const CAROUSEL_ITEMS = [
   {
     image:
@@ -386,7 +368,7 @@ export default function Login() {
                 "--max-opacity": p.opacity,
               } as any}
             >
-              <RealisticPaw
+              <Pets
                 sx={{
                   width: "100%",
                   height: "100%",
