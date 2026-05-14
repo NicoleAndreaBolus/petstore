@@ -335,31 +335,38 @@ export default function Login() {
             opacity: 0.15,
             color: "primary.main",
             "@keyframes pawFade": {
-              "0%": { opacity: 0, transform: "scale(0.5) translateY(20px)" },
+              "0%": { opacity: 0, transform: "scale(0.8) translateY(10px)" },
               "20%": { opacity: 1, transform: "scale(1) translateY(0)" },
-              "80%": { opacity: 1, transform: "scale(1) translateY(-20px)" },
-              "100%": { opacity: 0, transform: "scale(1.2) translateY(-40px)" },
+              "50%": { opacity: 1, transform: "scale(1) translateY(0)" },
+              "100%": { opacity: 0, transform: "scale(0.9) translateY(-15px)" },
             },
           }}
         >
           {[
-            { bottom: "10%", left: "10%", delay: "0s", rotate: 35 },
-            { bottom: "35%", left: "30%", delay: "1.5s", rotate: 55 },
-            { bottom: "60%", left: "55%", delay: "3s", rotate: 40 },
-            { bottom: "85%", left: "80%", delay: "4.5s", rotate: 60 },
+            // Alternating steps (left foot, right foot)
+            { bottom: "10%", left: "15%", delay: "0s", rotate: 30 },
+            { bottom: "30%", left: "35%", delay: "1.5s", rotate: 60 },
+            { bottom: "55%", left: "55%", delay: "3s", rotate: 30 },
+            { bottom: "80%", left: "75%", delay: "4.5s", rotate: 60 },
+            { bottom: "105%", left: "95%", delay: "6s", rotate: 30 }, // Added 5th step to keep the loop fluid
           ].map((p, i) => (
-            <Pets
+            <Box
               key={i}
               sx={{
-                fontSize: 64,
                 position: "absolute",
                 bottom: p.bottom,
                 left: p.left,
                 transform: `rotate(${p.rotate}deg)`,
-                opacity: 0,
-                animation: `pawFade 6s infinite ${p.delay}`,
               }}
-            />
+            >
+              <Pets
+                sx={{
+                  fontSize: 64,
+                  opacity: 0,
+                  animation: `pawFade 7.5s infinite ${p.delay}`,
+                }}
+              />
+            </Box>
           ))}
         </Box>
 
