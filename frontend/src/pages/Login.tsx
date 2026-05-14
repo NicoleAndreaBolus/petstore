@@ -321,6 +321,48 @@ export default function Login() {
           py: 6,
         }}
       >
+        {/* Background Animation */}
+        <Box
+          sx={{
+            position: "absolute",
+            top: 0,
+            left: 0,
+            right: 0,
+            bottom: 0,
+            overflow: "hidden",
+            pointerEvents: "none",
+            zIndex: 0,
+            opacity: 0.05,
+            color: "primary.main",
+            "@keyframes pawFade": {
+              "0%": { opacity: 0, transform: "scale(0.5) translateY(20px)" },
+              "20%": { opacity: 1, transform: "scale(1) translateY(0)" },
+              "80%": { opacity: 1, transform: "scale(1) translateY(-20px)" },
+              "100%": { opacity: 0, transform: "scale(1.2) translateY(-40px)" },
+            },
+          }}
+        >
+          {[
+            { bottom: "10%", left: "80%", delay: "0s", rotate: 15 },
+            { bottom: "30%", left: "70%", delay: "1.5s", rotate: -10 },
+            { bottom: "50%", left: "85%", delay: "3s", rotate: 20 },
+            { bottom: "70%", left: "75%", delay: "4.5s", rotate: -5 },
+          ].map((p, i) => (
+            <Pets
+              key={i}
+              sx={{
+                fontSize: 56,
+                position: "absolute",
+                bottom: p.bottom,
+                left: p.left,
+                transform: `rotate(${p.rotate}deg)`,
+                opacity: 0,
+                animation: `pawFade 6s infinite ${p.delay}`,
+              }}
+            />
+          ))}
+        </Box>
+
         <Box
           sx={{ width: "100%", maxWidth: 400, position: "relative", zIndex: 1 }}
         >
