@@ -1,0 +1,48 @@
+services:
+  # Frontend Static Site
+  - type: web
+    name: petstore-frontend
+    env: static
+    buildCommand: npm install && npm run build
+    staticPublishPath: ./dist
+    rootDir: frontend
+    envVars:
+      - key: VITE_API_BASE_URL
+        fromService:
+          type: web
+          name: petstore-backend
+          envVarKey: RENDER_EXTERNAL_URL
+
+  # Backend Web Service
+  - type: web
+    name: petstore-backend
+    env: docker
+    rootDir: backend
+    dockerfilePath: ./Dockerfile
+    envVars:
+      - key: DB_HOST
+        fromDatabase:
+          name: petstore-db
+          property: host
+      - key: DB_PORT
+        fromDatabase:
+          name: petstore-db
+          property: port
+      - key: DB_NAME
+        fromDatabase:
+          name: petstore-db
+          property: database
+      - key: DB_USER
+        fromDatabase:
+          name: petstore-db
+          property: user
+      - key: DB_PASSWORD
+        fromDatabase:
+          name: petstore-db
+          property: password
+
+databases:
+  # PostgreSQL Database
+  - name: petstore-db
+    databaseName: petstore
+    user: petstore_user
