@@ -24,6 +24,24 @@ import {
 } from "@mui/icons-material";
 import { useNavigate } from "react-router-dom";
 
+const RealisticPaw = (props: any) => (
+  <svg viewBox="0 0 100 100" fill="currentColor" {...props}>
+    <defs>
+      <filter id="softEdge" x="-20%" y="-20%" width="140%" height="140%">
+        <feGaussianBlur stdDeviation="1.2" result="blur" />
+        <feComposite in="SourceGraphic" in2="blur" operator="over" />
+      </filter>
+    </defs>
+    <g filter="url(#softEdge)">
+      <path d="M 50 48 C 30 45, 18 55, 25 75 C 30 88, 45 92, 50 88 C 55 92, 70 88, 75 75 C 82 55, 70 45, 50 48 Z" />
+      <path d="M 32 22 C 22 24, 18 35, 25 42 C 32 48, 38 40, 38 30 C 38 24, 38 20, 32 22 Z" />
+      <path d="M 46 10 C 38 10, 36 22, 41 30 C 46 38, 54 38, 56 28 C 58 18, 54 10, 46 10 Z" />
+      <path d="M 64 12 C 56 12, 54 24, 59 32 C 64 40, 72 40, 74 30 C 76 20, 72 12, 64 12 Z" />
+      <path d="M 78 24 C 68 26, 64 37, 71 44 C 78 50, 84 42, 84 32 C 84 26, 84 22, 78 24 Z" />
+    </g>
+  </svg>
+);
+
 const CAROUSEL_ITEMS = [
   {
     image:
@@ -332,30 +350,29 @@ export default function Login() {
             overflow: "hidden",
             pointerEvents: "none",
             zIndex: 0,
-            opacity: 0.15,
-            color: "primary.main",
+            color: "#64748B", // A natural muted slate/grey color for the prints
             "@keyframes pawFade": {
-              "0%": { opacity: 0, transform: "scale(0.6)" },
-              "5%": { opacity: 1, transform: "scale(1)" },
-              "30%": { opacity: 1, transform: "scale(1)" },
-              "70%": { opacity: 0, transform: "scale(0.9)" },
-              "100%": { opacity: 0, transform: "scale(0.9)" },
+              "0%": { opacity: 0, transform: "scale(0.85)" },
+              "8%": { opacity: "var(--max-opacity)", transform: "scale(1)" },
+              "40%": { opacity: "var(--max-opacity)", transform: "scale(1)" },
+              "80%": { opacity: 0, transform: "scale(0.95)" },
+              "100%": { opacity: 0, transform: "scale(0.95)" },
             },
           }}
         >
           {[
-            // Alternating footprint track (Right, Left, Right, Left...)
-            { bottom: "-1%", left: "2%", delay: "0s", rotate: 55 },
-            { bottom: "12%", left: "9%", delay: "0.4s", rotate: 35 },
-            { bottom: "19%", left: "22%", delay: "0.8s", rotate: 55 },
-            { bottom: "32%", left: "29%", delay: "1.2s", rotate: 35 },
-            { bottom: "39%", left: "42%", delay: "1.6s", rotate: 55 },
-            { bottom: "52%", left: "49%", delay: "2.0s", rotate: 35 },
-            { bottom: "59%", left: "62%", delay: "2.4s", rotate: 55 },
-            { bottom: "72%", left: "69%", delay: "2.8s", rotate: 35 },
-            { bottom: "79%", left: "82%", delay: "3.2s", rotate: 55 },
-            { bottom: "92%", left: "89%", delay: "3.6s", rotate: 35 },
-            { bottom: "99%", left: "102%", delay: "4.0s", rotate: 55 },
+            // { bottom, left, delay, rotate, scale, opacity }
+            { bottom: "8%", left: "5%", delay: "0s", rotate: 60, scale: 0.85, opacity: 0.08 },
+            { bottom: "22%", left: "14%", delay: "0.5s", rotate: 68, scale: 1.0, opacity: 0.12 },
+            { bottom: "15%", left: "26%", delay: "1.0s", rotate: 55, scale: 0.80, opacity: 0.07 },
+            { bottom: "28%", left: "35%", delay: "1.5s", rotate: 62, scale: 0.95, opacity: 0.11 },
+            { bottom: "20%", left: "47%", delay: "2.0s", rotate: 50, scale: 0.88, opacity: 0.09 },
+            { bottom: "34%", left: "56%", delay: "2.5s", rotate: 58, scale: 1.05, opacity: 0.13 },
+            { bottom: "25%", left: "68%", delay: "3.0s", rotate: 45, scale: 0.82, opacity: 0.08 },
+            { bottom: "39%", left: "77%", delay: "3.5s", rotate: 52, scale: 0.92, opacity: 0.11 },
+            { bottom: "32%", left: "89%", delay: "4.0s", rotate: 42, scale: 0.86, opacity: 0.09 },
+            { bottom: "48%", left: "95%", delay: "4.5s", rotate: 48, scale: 1.0, opacity: 0.12 },
+            { bottom: "42%", left: "108%", delay: "5.0s", rotate: 38, scale: 0.80, opacity: 0.07 },
           ].map((p, i) => (
             <Box
               key={i}
@@ -364,13 +381,17 @@ export default function Login() {
                 bottom: p.bottom,
                 left: p.left,
                 transform: `rotate(${p.rotate}deg)`,
-              }}
+                width: `${65 * p.scale}px`,
+                height: `${65 * p.scale}px`,
+                "--max-opacity": p.opacity,
+              } as any}
             >
-              <Pets
+              <RealisticPaw
                 sx={{
-                  fontSize: 52,
+                  width: "100%",
+                  height: "100%",
                   opacity: 0,
-                  animation: `pawFade 10s infinite ${p.delay}`,
+                  animation: `pawFade 14s infinite ${p.delay} ease-in-out`,
                 }}
               />
             </Box>
