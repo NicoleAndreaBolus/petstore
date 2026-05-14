@@ -87,6 +87,7 @@ export default function Admin() {
   const [pets, setPets] = useState<any[]>([]);
   const [activePage, setActivePage] = useState<ActivePage>("roster");
   const [open, setOpen] = useState(false);
+  const [isSaving, setIsSaving] = useState(false);
   const [search, setSearch] = useState("");
   const [formData, setFormData] = useState({
     id: null as any, name: "", species: "", breed: "",
@@ -109,6 +110,7 @@ export default function Admin() {
   useEffect(() => { fetchPets(); }, []);
 
   function handleSave() {
+    setIsSaving(true);
     // 4. ATTACH THE TOKEN TO POST/PUT REQUESTS
     const req = formData.id
       ? axios.put(`${API_URL}/${formData.id}`, formData, authConfig)
@@ -120,6 +122,8 @@ export default function Admin() {
     }).catch(err => {
       console.error("Failed to save pet:", err);
       if(err.response?.status === 403) alert("Session expired. Please log in again.");
+    }).finally(() => {
+      setIsSaving(false);
     });
   }
 
@@ -369,7 +373,15 @@ export default function Admin() {
       </Box>
 
       {/* ── Dialog ── */}
-      <Dialog open={open} onClose={() => setOpen(false)} maxWidth="md" fullWidth sx={{ "& .MuiDialog-paper": { borderRadius: "24px" } }}>
+      <Dialog 
+        open={open} 
+        onClose={() => setOpen(false)} 
+        maxWidth="md" 
+        fullWidth 
+        disableRestoreFocus 
+        disableEnforceFocus 
+        sx={{ "& .MuiDialog-paper": { borderRadius: "24px" } }}
+      >
         <DialogTitle sx={{ fontWeight: 900, fontSize: "1.4rem", pt: 4, px: 4, pb: 1 }}>
           {formData.id ? "Update Companion Profile" : "Intake New Companion"}
           <Typography sx={{ fontWeight: 500, fontSize: "0.9rem", color: "#64748B", mt: 0.5 }}>
@@ -402,9 +414,9 @@ export default function Admin() {
         </DialogContent>
         <DialogActions sx={{ p: 4, pt: 2, bgcolor: "#F8FAFC", borderTop: "1px solid #F1F5F9", gap: 1 }}>
           <Button onClick={() => setOpen(false)} sx={{ fontWeight: 700, color: "#64748B", textTransform: "none", borderRadius: "10px", px: 3 }}>Cancel</Button>
-          <Button onClick={handleSave} variant="contained"
+          <Button onClick={handleSave} disabled={isSaving} variant="contained"
             sx={{ fontWeight: 800, borderRadius: "12px", px: 4, py: 1.2, textTransform: "none", bgcolor: "#1E293B", "&:hover": { bgcolor: "#0F172A" }, boxShadow: "0 4px 14px rgba(0,0,0,0.15)" }}>
-            {formData.id ? "Save Changes" : "Complete Intake"}
+            {formData.id ? "Save Changes" : isSaving ? "Saving..." : "Complete Intake"}
           </Button>
         </DialogActions>
       </Dialog>
