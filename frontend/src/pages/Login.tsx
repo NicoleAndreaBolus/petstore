@@ -335,20 +335,27 @@ export default function Login() {
             opacity: 0.15,
             color: "primary.main",
             "@keyframes pawFade": {
-              "0%": { opacity: 0, transform: "scale(0.8) translateY(10px)" },
-              "20%": { opacity: 1, transform: "scale(1) translateY(0)" },
-              "50%": { opacity: 1, transform: "scale(1) translateY(0)" },
-              "100%": { opacity: 0, transform: "scale(0.9) translateY(-15px)" },
+              "0%": { opacity: 0, transform: "scale(0.6)" },
+              "5%": { opacity: 1, transform: "scale(1)" },
+              "30%": { opacity: 1, transform: "scale(1)" },
+              "70%": { opacity: 0, transform: "scale(0.9)" },
+              "100%": { opacity: 0, transform: "scale(0.9)" },
             },
           }}
         >
           {[
-            // Alternating steps (left foot, right foot)
-            { bottom: "10%", left: "15%", delay: "0s", rotate: 30 },
-            { bottom: "30%", left: "35%", delay: "1.5s", rotate: 60 },
-            { bottom: "55%", left: "55%", delay: "3s", rotate: 30 },
-            { bottom: "80%", left: "75%", delay: "4.5s", rotate: 60 },
-            { bottom: "105%", left: "95%", delay: "6s", rotate: 30 }, // Added 5th step to keep the loop fluid
+            // Alternating footprint track (Right, Left, Right, Left...)
+            { bottom: "-1%", left: "2%", delay: "0s", rotate: 55 },
+            { bottom: "12%", left: "9%", delay: "0.4s", rotate: 35 },
+            { bottom: "19%", left: "22%", delay: "0.8s", rotate: 55 },
+            { bottom: "32%", left: "29%", delay: "1.2s", rotate: 35 },
+            { bottom: "39%", left: "42%", delay: "1.6s", rotate: 55 },
+            { bottom: "52%", left: "49%", delay: "2.0s", rotate: 35 },
+            { bottom: "59%", left: "62%", delay: "2.4s", rotate: 55 },
+            { bottom: "72%", left: "69%", delay: "2.8s", rotate: 35 },
+            { bottom: "79%", left: "82%", delay: "3.2s", rotate: 55 },
+            { bottom: "92%", left: "89%", delay: "3.6s", rotate: 35 },
+            { bottom: "99%", left: "102%", delay: "4.0s", rotate: 55 },
           ].map((p, i) => (
             <Box
               key={i}
@@ -361,9 +368,9 @@ export default function Login() {
             >
               <Pets
                 sx={{
-                  fontSize: 64,
+                  fontSize: 52,
                   opacity: 0,
-                  animation: `pawFade 7.5s infinite ${p.delay}`,
+                  animation: `pawFade 10s infinite ${p.delay}`,
                 }}
               />
             </Box>
