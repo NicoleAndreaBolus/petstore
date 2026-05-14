@@ -17,7 +17,11 @@ public class UserSeeder implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        // Attempt to save the admin, but wrap in try-catch in case it already exists
+        if (userRepository.existsByEmail("admin@petstore.com")) {
+            System.out.println("✅ Admin account already exists in database. Skipping.");
+            return;
+        }
+
         try {
             System.out.println("👑 Creating default Admin account...");
 
@@ -29,7 +33,7 @@ public class UserSeeder implements CommandLineRunner {
             userRepository.save(admin);
             System.out.println("✅ Admin account created: admin@petstore.com / admin123");
         } catch (Exception e) {
-            System.out.println("✅ Admin account already exists in database. Skipping.");
+            System.out.println("⚠️ Could not create default admin account: " + e.getMessage());
         }
     }
 }
