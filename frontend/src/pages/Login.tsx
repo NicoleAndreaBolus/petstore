@@ -332,7 +332,7 @@ export default function Login() {
             overflow: "hidden",
             pointerEvents: "none",
             zIndex: 0,
-            opacity: 0.05,
+            opacity: 0.15,
             color: "primary.main",
             "@keyframes pawFade": {
               "0%": { opacity: 0, transform: "scale(0.5) translateY(20px)" },
@@ -343,15 +343,15 @@ export default function Login() {
           }}
         >
           {[
-            { bottom: "10%", left: "80%", delay: "0s", rotate: 15 },
-            { bottom: "30%", left: "70%", delay: "1.5s", rotate: -10 },
-            { bottom: "50%", left: "85%", delay: "3s", rotate: 20 },
-            { bottom: "70%", left: "75%", delay: "4.5s", rotate: -5 },
+            { bottom: "10%", left: "10%", delay: "0s", rotate: 35 },
+            { bottom: "35%", left: "30%", delay: "1.5s", rotate: 55 },
+            { bottom: "60%", left: "55%", delay: "3s", rotate: 40 },
+            { bottom: "85%", left: "80%", delay: "4.5s", rotate: 60 },
           ].map((p, i) => (
             <Pets
               key={i}
               sx={{
-                fontSize: 56,
+                fontSize: 64,
                 position: "absolute",
                 bottom: p.bottom,
                 left: p.left,
